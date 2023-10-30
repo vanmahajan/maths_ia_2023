@@ -10,9 +10,13 @@
 # process
 
 from PIL import Image
+
 import matplotlib.pyplot as plt
 import random
 import statistics
+import numpy as np
+import math
+from itertools import compress
 
 
 def convert_selected_to_red(image_path, new_path):
@@ -90,7 +94,7 @@ def count_colored_pixels(image, title, plot_file):
     return colored_count
 
 
-def riemann_sum(fn, interval_size, image_prefix):
+def riemann_sum(fn, interval_size, image_prefix, print_details=False):
     # Returns the Riemann Sum where each interval is "interval_size" pixels.
     # fn is value for each pixel
     fnvalues = []
@@ -115,6 +119,11 @@ def riemann_sum(fn, interval_size, image_prefix):
             x[i : i + interval_size + 1], 0, fnvalue, color="gray", alpha=0.4
         )
         partial_sum += fnvalue * interval_size
+        if print_details:
+            print(
+                f"    {int(i/interval_size)+1}, {i}, {i+interval_size},{interval_size}, {fnvalue}, {fnvalue*interval_size}"
+            )
+
     print(
         f"  Riemann Sum: Interval size: {interval_size}. Area estimate:{partial_sum:.2f}"
     )
@@ -171,8 +180,11 @@ def monte_carlo(image, num_points, monte_carlo_file, silent):
     inside_ratio = (inside_colored_area * 1.0) / (num_points * 1.0)
     estimated_area = inside_ratio * total_area
     if silent != True:
+        p = inside_ratio
+        N = num_points
+        ci = 1.645 * math.sqrt(p * (1 - p) / N) * total_area
         print(
-            f"  Monte Carlo: {1:3}  iteration of {num_points:6} points. Estimated area: {estimated_area:.2f} (Inside:{inside_colored_area:6} Outside:{outside_colored_area:6} Total area: {total_area} )"
+            f"  Monte Carlo: {1:3}  iteration of {num_points:6} points. Estimated area: {estimated_area:.0f} +/- {ci:4.0f} ( Inside:{inside_colored_area:6} Outside:{outside_colored_area:6} Total area: {total_area} )"
         )
         new_image.save(f"{monte_carlo_file}_{num_points}.png")
     return estimated_area
@@ -213,6 +225,125 @@ def crop_image(image_path_new, output_path_new):
     cropped_image_new.save(output_path_new)
 
 
+def calculate_lebesgue_integral(fn_values, num_intervals, print_details=False):
+    """
+    Calculate the Lebesgue integral of a function represented by an array of values.
+
+    :param fn_values: Array of function values
+    :param num_intervals: Number of intervals to partition the range of f(x)
+    :return: The approximate Lebesgue integral, partition information
+    """
+    # Extracting the relevant function values for the integration range
+    # start = 0
+    # end = len(fn_values)
+    # # relevant_fn_values = fn_values[start : end + 1]
+    relevant_fn_values = fn_values
+
+    # Step 1: Partition the range of f(x) into intervals
+    min_fn_value = np.min(relevant_fn_values)
+    max_fn_value = np.max(relevant_fn_values)
+    fn_range = max_fn_value - min_fn_value
+    interval_length = fn_range / num_intervals
+    if print_details:
+        print(f"Min:{min_fn_value} Max:{max_fn_value} Range:{fn_range}")
+    intervals = [
+        (
+            min_fn_value + i * interval_length,
+            min_fn_value + (i + 1) * interval_length,
+        )
+        for i in range(num_intervals)
+    ]
+    # Tweak the last interval to ensure that the max value of the function is included.
+    intervals[-1] = (
+        min_fn_value + (num_intervals - 1) * interval_length,
+        max_fn_value + interval_length,
+    )
+
+    # Step 2: Calculate the Lebesgue measure for each interval
+    lebesgue_measures = np.zeros(num_intervals)
+    for i, (lower, upper) in enumerate(intervals):
+        in_interval = (relevant_fn_values >= lower) & (relevant_fn_values < upper)
+        lebesgue_measures[i] = np.sum(in_interval)  # / len(relevant_fn_values)
+
+    # Step 3: Calculate the infimum for each interval
+    infimums = np.zeros(num_intervals)
+    maximums = np.zeros(num_intervals)
+    for i, (lower, upper) in enumerate(intervals):
+        in_interval = (relevant_fn_values >= lower) & (relevant_fn_values < upper)
+        matching_values = list(compress(relevant_fn_values, in_interval))
+        if np.any(in_interval):
+            infimums[i] = np.min(matching_values)
+            maximums[i] = np.max(matching_values)
+        else:
+            infimums[i] = 0
+            maximums[i] = 0
+        if print_details:
+            print(
+                f"{i+1:0}, {lower:.1f}, {upper:.1f}, {lebesgue_measures[i]:0}, {infimums[i]}, {maximums[i]}"
+            )
+
+    # Step 4: Sum up the products of the Lebesgue measure and the infimum for each interval
+    lebesgue_lower_integral = np.sum(lebesgue_measures * infimums)
+    lebesgue_upper_integral = np.sum(lebesgue_measures * maximums)
+    print(
+        f"    {num_intervals},{lebesgue_lower_integral:.1f},{lebesgue_upper_integral:.1f}"
+    )
+    return lebesgue_lower_integral, lebesgue_upper_integral, intervals
+
+
+# Calculating the Lebesgue integral for f(x) from x = 0 to x = 248
+# lebesgue_integral, intervals = calculate_lebesgue_integral(fn_values, 10)
+# lebesgue_integral, intervals
+
+
+def plot_lebesgue(fn_values, intervals, image_prefix):
+    """
+    Plot the function and the Lebesgue intervals.
+
+    :param fn_values: Array of function values
+    :param intervals: List of tuples representing the Lebesgue intervals
+    :param image_prefix: Image prefix for generate plot
+    """
+    x_values = range(len(fn_values))
+    x_range = range(len(fn_values))
+    plt.figure(figsize=(10, 5))
+
+    # Plotting the function
+    plt.plot(x_values, fn_values, label="Function $f(x)$", color="blue")
+
+    # Highlighting the range of integration
+    start = 0
+    end = len(fn_values)
+    plt.axvline(x=start, color="green", linestyle="--", label="Integration Range")
+    plt.axvline(x=end, color="green", linestyle="--")
+    for i in intervals:
+        plt.axhline(y=i[0], color="blue", linestyle="-.")
+        plt.axhline(y=i[1], color="blue", linestyle="-.")
+    # Plot the end of the last interval and give it a label
+    plt.axhline(
+        y=intervals[-1][1], color="blue", linestyle="-.", label="Lebesgue intervals"
+    )
+    # plt.fill_between(
+    #     x_values[start : end + 1], fn_values[start : end + 1], color="green", alpha=0.1
+    # )
+
+    # Shading the Lebesgue intervals
+    # for lower, upper in intervals:
+    #     in_interval = (fn_values >= lower) & (fn_values < upper)
+    #     plt.fill_between(x_values, fn_values, where=in_interval, color="red", alpha=0.2)
+
+    plt.xlabel("x")
+    plt.ylabel("$f(x)$")
+    plt.title("Function and Lebesgue Intervals")
+    plt.legend()
+    plt.grid(True)
+    plt.savefig(f"{image_prefix}_{len(intervals)}.png")
+
+
+# Plotting the function and the Lebesgue intervals
+# plot_lebesgue(fn_values, intervals)
+
+
 # Process a single door image
 def process(prefix, title):
     source_file = f"./{prefix}_gray.png"
@@ -220,6 +351,7 @@ def process(prefix, title):
     colored_file = f"./{prefix}_red.png"
     plot_file = f"{prefix}_plot.png"
     monte_carlo_file = f"{prefix}_monte_carlo"
+    lebesgue_file = f"{prefix}_lebesgue"
     crop_image(source_file, cropped_file)
     im = convert_selected_to_red(cropped_file, colored_file)
     fn = count_colored_pixels(im, title, plot_file)
@@ -238,11 +370,24 @@ def process(prefix, title):
     monte_carlo_multiple(
         image=im, iterations=100, num_points=200000, monte_carlo_file=monte_carlo_file
     )
-    riemann_sum(fn, interval_size=20, image_prefix=f"{prefix}_riemann")
+    riemann_sum(
+        fn, interval_size=20, image_prefix=f"{prefix}_riemann", print_details=True
+    )
     riemann_sum(fn, interval_size=10, image_prefix=f"{prefix}_riemann")
     riemann_sum(fn, interval_size=5, image_prefix=f"{prefix}_riemann")
     riemann_sum(fn, interval_size=2, image_prefix=f"{prefix}_riemann")
     riemann_sum(fn, interval_size=1, image_prefix=f"{prefix}_riemann")
+
+    print("  Lebesgue integral with details")
+    _, _, intervals = calculate_lebesgue_integral(fn, 5, False)
+    plot_lebesgue(fn, intervals, lebesgue_file)
+    print("  Lebesgue integrals")
+    _, _, intervals = calculate_lebesgue_integral(fn, 10)
+    _, _, intervals = calculate_lebesgue_integral(fn, 20)
+    _, _, intervals = calculate_lebesgue_integral(fn, 30)
+    _, _, intervals = calculate_lebesgue_integral(fn, 40)
+    _, _, intervals = calculate_lebesgue_integral(fn, np.max(fn) + 1)
+
     return fn
 
 

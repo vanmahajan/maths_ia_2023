@@ -5,36 +5,95 @@ Woman: 47280
 Men:   41239
 Woman symbol has 14% more area than the men's symbol.
 
-Woman Door: width=374 height=841 Colored area: 47280  Door area: 314534 
-  Monte Carlo:   1  iteration of   5000 points. Estimated area: 46802.66 (Inside:   744 Outside:  4256 Total area: 314534 )
-  Monte Carlo:  10 iterations of   5000 points. Estimated area: 47375.11 Std.Deviation: 1779.60
-  Monte Carlo:   1  iteration of  10000 points. Estimated area: 48060.80 (Inside:  1528 Outside:  8472 Total area: 314534 )
-  Monte Carlo:  10 iterations of  10000 points. Estimated area: 47466.33 Std.Deviation: 922.66
-  Monte Carlo:   1  iteration of 100000 points. Estimated area: 47302.77 (Inside: 15039 Outside: 84961 Total area: 314534 )
-  Monte Carlo:  10 iterations of 100000 points. Estimated area: 47079.13 Std.Deviation: 413.80
-  Monte Carlo:   1  iteration of 200000 points. Estimated area: 47296.48 (Inside: 30074 Outside:169926 Total area: 314534 )
-  Monte Carlo:  10 iterations of 200000 points. Estimated area: 47196.14 Std.Deviation: 203.32
-  Monte Carlo:   1  iteration of 200000 points. Estimated area: 47552.82 (Inside: 30237 Outside:169763 Total area: 314534 )
-  Monte Carlo: 100 iterations of 200000 points. Estimated area: 47288.33 Std.Deviation: 251.43
-  Riemann Sum: Interval size: 20. Area estimate:47260.00
-  Riemann Sum: Interval size: 10. Area estimate:46130.00
-  Riemann Sum: Interval size: 5. Area estimate:47170.00
-  Riemann Sum: Interval size: 2. Area estimate:47294.00
+Female Symbol: width=374 height=841
+  Colored area: 47280  Door area: 314534 
+  Monte Carlo:   1  iteration of   5000 points. Estimated area: 47998 +/- 2631 ( Inside:   763 Outside:  4237 Total area: 314534 )
+  Monte Carlo:  10 iterations of   5000 points. Estimated area: 48205.48 Std.Deviation: 1501.37
+  Monte Carlo:   1  iteration of  10000 points. Estimated area: 48375 +/- 1867 ( Inside:  1538 Outside:  8462 Total area: 314534 )
+  Monte Carlo:  10 iterations of  10000 points. Estimated area: 47872.07 Std.Deviation: 586.76
+  Monte Carlo:   1  iteration of 100000 points. Estimated area: 47120 +/-  584 ( Inside: 14981 Outside: 85019 Total area: 314534 )
+  Monte Carlo:  10 iterations of 100000 points. Estimated area: 47274.77 Std.Deviation: 449.96
+  Monte Carlo:   1  iteration of 200000 points. Estimated area: 47315 +/-  414 ( Inside: 30086 Outside:169914 Total area: 314534 )
+  Monte Carlo:  10 iterations of 200000 points. Estimated area: 47280.28 Std.Deviation: 170.44
+  Monte Carlo:   1  iteration of 200000 points. Estimated area: 47672 +/-  415 ( Inside: 30313 Outside:169687 Total area: 314534 )
+  Monte Carlo: 100 iterations of 200000 points. Estimated area: 47293.11 Std.Deviation: 244.69
+  ========
+  Riemann
+    1, 0, 20,20, 383, 7660
+    2, 20, 40,20, 574, 11480
+    3, 40, 60,20, 491, 9820
+    4, 60, 80,20, 404, 8080
+    5, 80, 100,20, 228, 4560
+    6, 100, 120,20, 140, 2800
+    7, 120, 140,20, 93, 1860
+    8, 140, 160,20, 25, 500
+    9, 160, 180,20, 0, 0
+    10, 180, 200,20, 0, 0
+    11, 200, 220,20, 0, 0
+    12, 220, 240,20, 0, 0
+    13, 240, 260,20, 0, 0
+    14, 260, 280,20, 0, 0
+    15, 280, 300,20, 0, 0
+    16, 300, 320,20, 0, 0
+    17, 320, 340,20, 0, 0
+    18, 340, 360,20, 0, 0
+    19, 360, 380,20, 0, 0
+  Riemann Sum: Interval size: 20. Area estimate:46760.00
+  Riemann Sum: Interval size: 10. Area estimate:49670.00
+  Riemann Sum: Interval size: 5. Area estimate:47830.00
+  Riemann Sum: Interval size: 2. Area estimate:47212.00
   Riemann Sum: Interval size: 1. Area estimate:47280.00
-Man Door: width=374 height=841 Colored area: 41239  Door area: 314534 
-  Monte Carlo:   1  iteration of   5000 points. Estimated area: 44349.29 (Inside:   705 Outside:  4295 Total area: 314534 )
-  Monte Carlo:  10 iterations of   5000 points. Estimated area: 41499.62 Std.Deviation: 2023.62
-  Monte Carlo:   1  iteration of  10000 points. Estimated area: 40071.63 (Inside:  1274 Outside:  8726 Total area: 314534 )
-  Monte Carlo:  10 iterations of  10000 points. Estimated area: 41075.00 Std.Deviation: 842.98
-  Monte Carlo:   1  iteration of 100000 points. Estimated area: 40939.75 (Inside: 13016 Outside: 86984 Total area: 314534 )
-  Monte Carlo:  10 iterations of 100000 points. Estimated area: 41075.94 Std.Deviation: 418.28
-  Monte Carlo:   1  iteration of 200000 points. Estimated area: 40648.80 (Inside: 25847 Outside:174153 Total area: 314534 )
-  Monte Carlo:  10 iterations of 200000 points. Estimated area: 41286.83 Std.Deviation: 293.22
-  Monte Carlo:   1  iteration of 200000 points. Estimated area: 41295.17 (Inside: 26258 Outside:173742 Total area: 314534 )
-  Monte Carlo: 100 iterations of 200000 points. Estimated area: 41234.16 Std.Deviation: 238.30
-  Riemann Sum: Interval size: 20. Area estimate:41800.00
-  Riemann Sum: Interval size: 10. Area estimate:43300.00
-  Riemann Sum: Interval size: 5. Area estimate:40975.00
-  Riemann Sum: Interval size: 2. Area estimate:41152.00
+  Lebesgue integral with details
+    5,37443.0,78472.0
+  Lebesgue integrals
+    10,42815.0,62920.0
+    20,45240.0,54462.0
+    30,46134.0,49191.0
+    40,46431.0,48928.0
+    581,47280.0,47280.0
+Male Symbol: width=374 height=841
+  Colored area: 41239  Door area: 314534 
+  Monte Carlo:   1  iteration of   5000 points. Estimated area: 40575 +/- 2453 ( Inside:   645 Outside:  4355 Total area: 314534 )
+  Monte Carlo:  10 iterations of   5000 points. Estimated area: 41763.82 Std.Deviation: 1288.12
+  Monte Carlo:   1  iteration of  10000 points. Estimated area: 42556 +/- 1770 ( Inside:  1353 Outside:  8647 Total area: 314534 )
+  Monte Carlo:  10 iterations of  10000 points. Estimated area: 42147.56 Std.Deviation: 908.02
+  Monte Carlo:   1  iteration of 100000 points. Estimated area: 41424 +/-  553 ( Inside: 13170 Outside: 86830 Total area: 314534 )
+  Monte Carlo:  10 iterations of 100000 points. Estimated area: 41322.53 Std.Deviation: 206.12
+  Monte Carlo:   1  iteration of 200000 points. Estimated area: 41397 +/-  391 ( Inside: 26323 Outside:173677 Total area: 314534 )
+  Monte Carlo:  10 iterations of 200000 points. Estimated area: 41277.71 Std.Deviation: 265.78
+  Monte Carlo:   1  iteration of 200000 points. Estimated area: 41051 +/-  390 ( Inside: 26103 Outside:173897 Total area: 314534 )
+  Monte Carlo: 100 iterations of 200000 points. Estimated area: 41263.01 Std.Deviation: 246.11
+  ========
+  Riemann
+    1, 0, 20,20, 509, 10180
+    2, 20, 40,20, 555, 11100
+    3, 40, 60,20, 530, 10600
+    4, 60, 80,20, 92, 1840
+    5, 80, 100,20, 232, 4640
+    6, 100, 120,20, 190, 3800
+    7, 120, 140,20, 0, 0
+    8, 140, 160,20, 0, 0
+    9, 160, 180,20, 0, 0
+    10, 180, 200,20, 0, 0
+    11, 200, 220,20, 0, 0
+    12, 220, 240,20, 0, 0
+    13, 240, 260,20, 0, 0
+    14, 260, 280,20, 0, 0
+    15, 280, 300,20, 0, 0
+    16, 300, 320,20, 0, 0
+    17, 320, 340,20, 0, 0
+    18, 340, 360,20, 0, 0
+    19, 360, 380,20, 0, 0
+  Riemann Sum: Interval size: 20. Area estimate:42160.00
+  Riemann Sum: Interval size: 10. Area estimate:42030.00
+  Riemann Sum: Interval size: 5. Area estimate:40680.00
+  Riemann Sum: Interval size: 2. Area estimate:41044.00
   Riemann Sum: Interval size: 1. Area estimate:41239.00
-=============================
+  Lebesgue integral with details
+    5,34455.0,70067.0
+  Lebesgue integrals
+    10,38631.0,42984.0
+    20,40008.0,42280.0
+    30,40392.0,41929.0
+    40,40688.0,41684.0
+    574,41239.0,41239.0
